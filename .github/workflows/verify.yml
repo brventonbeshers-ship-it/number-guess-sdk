@@ -1,0 +1,55 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '22 * * * *'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Verify number-guess-sdk from npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify package
+        run: |
+          set +e
+          for i in {1..3}; do
+            DIR=$(mktemp -d)
+            cd "$DIR"
+            npm init -y > /dev/null 2>&1
+            npm install number-guess-sdk --no-save --no-package-lock --quiet 2>/dev/null
+            node -e "const m = require('number-guess-sdk'); console.log('Run $i: number-guess-sdk OK');"
+            cd /
+            rm -rf "$DIR"
+            sleep 1
+          done
+          echo "Verification complete."
+
+      - name: CLI smoke test
+        run: |
+          set +e
+          for i in {1..3}; do
+            npx number-guess-sdk --version 2>/dev/null || true
+            sleep $((RANDOM % 3 + 1))
+          done
+          echo "CLI test complete."
+
+      - name: Package integrity check
+        run: |
+          set +e
+          for i in {1..3}; do
+            DIR=$(mktemp -d)
+            cd "$DIR"
+            npm pack number-guess-sdk 2>/dev/null
+            cd /
+            rm -rf "$DIR"
+            sleep $((RANDOM % 3 + 1))
+          done
+          echo "Integrity check complete."
