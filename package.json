@@ -1,0 +1,37 @@
+{
+  "name": "number-guess-sdk",
+  "version": "1.0.0",
+  "description": "TypeScript SDK for interacting with the Number Guess smart contract on Stacks blockchain",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "stacks",
+    "blockchain",
+    "number-guess",
+    "sdk",
+    "smart-contract",
+    "web3",
+    "dapp",
+    "stacks-blockchain",
+    "typescript",
+    "on-chain",
+    "guessing-game"
+  ],
+  "author": "brventonbeshers-ship-it",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brventonbeshers-ship-it/number-guess-sdk.git"
+  },
+  "dependencies": {
+    "@stacks/network": "^6.17.0",
+    "@stacks/transactions": "^6.17.0"
+  }
+}
